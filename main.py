@@ -42,7 +42,12 @@ def main() -> int:
     if written.strip() != text:
         print("refusing: re-read does not match the horoscope", file=sys.stderr)
         return 1
-    print(f"wrote {len(text)} chars to /output/entry.txt")
+    if written.count("\n") != 1 or written != text + "\n":
+        print("refusing: written file is not exactly the horoscope plus one newline",
+              file=sys.stderr)
+        return 1
+    print(f"wrote {len(text)} chars ({len(text.encode('utf-8'))} bytes) "
+          f"to /output/entry.txt")
     return 0
 
 
